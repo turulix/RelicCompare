@@ -11,7 +11,7 @@ import {BehaviorSubject} from 'rxjs';
 export class MainpageComponent implements OnInit {
     Arr = Array;
     tier = Tier;
-    private selected = new BehaviorSubject<Tier>(Tier.None);
+    public selected = new BehaviorSubject<Tier>(Tier.None);
 
     constructor(private cache: CacheService) {
     }
