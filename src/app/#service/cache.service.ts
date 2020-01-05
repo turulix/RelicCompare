@@ -41,6 +41,7 @@ export class CacheService {
         }
         const entry = this._cache.get(key);
         if (entry.expiryDate.getTime() < new Date().getTime()) {
+            console.log('Refreshing: ' + key);
             return null;
         }
         return entry;
