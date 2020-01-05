@@ -6,6 +6,7 @@ import {HttpClientModule} from '@angular/common/http';
 import {MainpageComponent} from './#components/mainpage/mainpage.component';
 import {RouterModule, Routes} from '@angular/router';
 import {SearchBarComponent} from './#components/#subcomp/search-bar/search-bar.component';
+import {CacheService} from './#service/cache.service';
 
 const appRoutes: Routes = [
     {
@@ -31,7 +32,7 @@ const appRoutes: Routes = [
             appRoutes
         ),
     ],
-    providers: [],
+    providers: [CacheService],
     bootstrap: [AppComponent]
 })
 export class AppModule {

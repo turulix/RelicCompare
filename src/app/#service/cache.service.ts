@@ -1,5 +1,5 @@
 import {Injectable} from '@angular/core';
-
+import Dexie from 'dexie';
 
 export class CacheEntry {
     public readonly key: string;
@@ -14,13 +14,28 @@ export class CacheEntry {
 }
 
 @Injectable({
-    providedIn: "root"
+    providedIn: 'root'
 })
 export class CacheService {
     // tslint:disable-next-line:variable-name
     private _cache: Map<string, CacheEntry> = new Map<string, CacheEntry>();
+    private db = null;
 
-    public get(key: string): CacheEntry {
+    constructor() {
+        console.log('Cache Service');
+        this.db = new Dexie('Cache');
+        this.db.version(1).stores({
+            cache: '&key'
+        });
+
+        this.db.open('Cache').then(db => {
+            db.cache.each(async entry => {
+                this._cache.set(entry.key, new CacheEntry(entry.key, entry.expire, entry.value));
+            });
+        });
+    }
+
+    public async get(key: string): Promise<CacheEntry> {
         if (!this._cache.has(key)) {
             return null;
         }
@@ -32,15 +47,19 @@ export class CacheService {
         return entry;
     }
 
-    public set(entry: CacheEntry) {
+    public async set(entry: CacheEntry) {
         this._cache.set(entry.key, entry);
+        const db = await this.db.open();
+        await db.cache.put({key: entry.key, expire: entry.expiryDate, value: entry.value});
     }
 
-    public add(key: string, expireIn: number, value: any) {
-        this._cache.set(key, new CacheEntry(key, new Date(new Date().getTime() + (1000) * expireIn), value));
+    public async add(key: string, expireIn: number, value: any) {
+        const expiryDate = new Date(new Date().getTime() + (1000) * expireIn);
+        await this.set(new CacheEntry(key, expiryDate, value));
     }
 
-    public has(key: string): boolean {
+    public async has(key: string): Promise<boolean> {
+        // @ts-ignore
         if (this._cache.has(key)) {
             if (this.get(key) === null) {
                 this.remove(key);
@@ -51,7 +70,10 @@ export class CacheService {
         return false;
     }
 
-    public remove(key: string) {
+
+    public async remove(key: string) {
+        // @ts-ignore
+        await this.db.cache.delete(key);
         this._cache.delete(key);
     }
 }

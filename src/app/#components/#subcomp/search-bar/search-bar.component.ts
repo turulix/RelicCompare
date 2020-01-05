@@ -29,15 +29,14 @@ export class SearchBarComponent implements OnInit {
     }
 
     async select(name: string) {
-        this.selectedRelic = this.relicService.getRelicByName(name);
-        if (this.selectedRelic === null) {
+        this.selectedRelic = await this.relicService.getRelicByName(name);
+        if (this.selectedRelic === null || this.selectedRelic === undefined) {
             this.rewards = [];
             return;
         }
         const rewards = [];
-
         for (const reward of this.selectedRelic.rewards) {
-            this.market.getMedianPrice48(this.market.getItemUrl(reward.itemName)).then(value => {
+            this.market.getMedianPrice48(await this.market.getItemUrl(reward.itemName)).then(value => {
                 rewards.push({
                     itemName: reward.itemName,
                     rarity: reward.rarity,
@@ -76,29 +75,27 @@ export class SearchBarComponent implements OnInit {
         this.rewards = rewards;
     }
 
-    click(value: string) {
+    async click(value: string) {
         this.input = value;
         this.getRelicOptions(value);
-        this.select(value).then(_ => {
-        });
+        await this.select(value);
     }
 
-    onSearchChange(searchValue: string): void {
+    async onSearchChange(searchValue: string) {
         this.input = searchValue;
         this.selectedIndex = -1;
         this.selected = '';
-        this.select(searchValue).then(_ => {
-        });
+        await this.select(searchValue);
         this.getRelicOptions(searchValue);
     }
 
-    getRelicOptions(searchValue: string) {
+    async getRelicOptions(searchValue: string) {
         if (searchValue === '') {
             this.relics = [];
             this.rewards = [];
             this.unFocus();
         }
-        const relics = this.relicService.getAllRelicNames().sort().filter(value => value.toLowerCase().includes(searchValue.toLowerCase())).slice(0, 6);
+        const relics = (await this.relicService.getAllRelicNames()).sort().filter(value => value.toLowerCase().includes(searchValue.toLowerCase())).slice(0, 6);
         if (relics.length === 0) {
             this.unFocus();
             return;
@@ -107,7 +104,7 @@ export class SearchBarComponent implements OnInit {
         this.relics = relics;
     }
 
-    unFocus() {
+    async unFocus() {
         setTimeout(args => {
             this.focused = false;
             this.selectedIndex = -1;
@@ -115,7 +112,7 @@ export class SearchBarComponent implements OnInit {
         }, 130);
     }
 
-    focus() {
+    async focus() {
         if (this.input === '') {
             this.selectedRelic = undefined;
             this.selectedIndex = -1;
@@ -125,7 +122,7 @@ export class SearchBarComponent implements OnInit {
         this.focused = true;
     }
 
-    arrowDown() {
+    async arrowDown() {
         if (!this.focused) {
             return;
         }
@@ -137,7 +134,7 @@ export class SearchBarComponent implements OnInit {
         this.input = this.selected;
     }
 
-    arrowUp() {
+    async arrowUp() {
         if (!this.focused) {
             return;
         }
@@ -149,15 +146,14 @@ export class SearchBarComponent implements OnInit {
         this.input = this.selected;
     }
 
-    enter() {
+    async enter() {
         if (!this.focused) {
             return;
         }
         if (this.selected === '') {
             return;
         }
-        this.select(this.selected).then(_ => {
-        });
+        await this.select(this.selected);
         this.unFocus();
     }
 }
