@@ -80,7 +80,6 @@ export class SearchBarComponent implements OnInit {
         this.selected = '';
         this.select(searchValue).then(_ => {});
         this.getRelicOptions(searchValue);
-        console.log(this.input);
     }
 
     getRelicOptions(searchValue: string) {
