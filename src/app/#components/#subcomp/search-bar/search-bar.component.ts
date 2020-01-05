@@ -84,6 +84,7 @@ export class SearchBarComponent implements OnInit {
     getRelicOptions(searchValue: string) {
         if (searchValue === '') {
             this.relics = [];
+            this.rewards = [];
             this.unFocus();
         }
         const relics = this.relicService.getAllRelicNames().sort().filter(value => value.toLowerCase().includes(searchValue.toLowerCase())).slice(0, 6);
@@ -100,7 +101,7 @@ export class SearchBarComponent implements OnInit {
             this.focused = false;
             this.selectedIndex = -1;
             this.selected = '';
-        }, 110);
+        }, 130);
     }
 
     focus() {
