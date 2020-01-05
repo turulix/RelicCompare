@@ -32,6 +32,7 @@ export class SearchBarComponent implements OnInit {
     async select(name: string) {
         this.selectedRelic = this.relicService.getRelicByName(name);
         if (this.selectedRelic === null) {
+            this.rewards = [];
             return;
         }
         const rewards = [];
@@ -77,6 +78,7 @@ export class SearchBarComponent implements OnInit {
         this.input = searchValue;
         this.selectedIndex = -1;
         this.selected = '';
+        this.select(searchValue).then(_ => {});
         this.getRelicOptions(searchValue);
         console.log(this.input);
     }
