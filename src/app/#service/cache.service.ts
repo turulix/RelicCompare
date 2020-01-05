@@ -41,7 +41,6 @@ export class CacheService {
         }
         const entry = this._cache.get(key);
         if (entry.expiryDate.getTime() < new Date().getTime()) {
-            this.remove(key);
             return null;
         }
         return entry;
@@ -59,10 +58,9 @@ export class CacheService {
     }
 
     public async has(key: string): Promise<boolean> {
-        // @ts-ignore
         if (this._cache.has(key)) {
-            if (this.get(key) === null) {
-                this.remove(key);
+            if (await this.get(key) === null) {
+                this._cache.delete(key);
                 return false;
             }
             return true;
@@ -70,10 +68,4 @@ export class CacheService {
         return false;
     }
 
-
-    public async remove(key: string) {
-        // @ts-ignore
-        await this.db.cache.delete(key);
-        this._cache.delete(key);
-    }
 }
