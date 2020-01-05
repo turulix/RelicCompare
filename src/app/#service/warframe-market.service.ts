@@ -1,6 +1,5 @@
 import {Injectable} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
-import {log} from 'util';
 import {CacheService} from './cache.service';
 
 @Injectable({
@@ -18,7 +17,6 @@ export class WarframeMarketService {
         });
     }
 
-    // TODO: Cache
     public async getMedianPrice48(name: string): Promise<string> {
         if (name === null) {
             return 'None';

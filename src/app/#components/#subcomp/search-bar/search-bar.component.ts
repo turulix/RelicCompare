@@ -3,7 +3,6 @@ import {RelicService} from '../../../#service/relic.service';
 import {Relic} from '../../../#classes/relic';
 import {Rarity} from '../../../#enums/rarity.enum';
 import {WarframeMarketService} from '../../../#service/warframe-market.service';
-import {BehaviorSubject, Observable} from 'rxjs';
 
 @Component({
     selector: 'app-search-bar',
@@ -57,8 +56,18 @@ export class SearchBarComponent implements OnInit {
                     if (a.rarity === Rarity.Common && b.rarity === Rarity.Rare || b.rarity === Rarity.Uncommon) {
                         return -1;
                     }
-
                     return 0;
+                });
+                rewards.sort((a, b) => {
+                    if (a.rarity === b.rarity) {
+                        if (a.itemName < b.itemName) {
+                            return 1;
+                        }
+                        if (a.itemName > b.itemName) {
+                            return -1;
+                        }
+                        return 0;
+                    }
                 }).reverse();
             });
         }
@@ -78,7 +87,8 @@ export class SearchBarComponent implements OnInit {
         this.input = searchValue;
         this.selectedIndex = -1;
         this.selected = '';
-        this.select(searchValue).then(_ => {});
+        this.select(searchValue).then(_ => {
+        });
         this.getRelicOptions(searchValue);
     }
 
