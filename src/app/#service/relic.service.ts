@@ -77,12 +77,18 @@ export class RelicService {
                 let itemName = rewards[j].itemName;
                 if (this.specialItems.indexOf(rewards[j].itemName) !== -1) {
                     itemName = rewards[j].itemName.toUpperCase();
-                } else if (rewards[j].itemName.match(/.*(Systems|Neuroptics|Chassis) Blueprint/g)) {
+                } else if (rewards[j].itemName.match(/.*(Systems|Neuroptics|Chassis|Harness|Wings) Blueprint/g)) {
                     itemName = rewards[j].itemName.slice(0, rewards[j].itemName.length - ' Blueprint'.length);
                 } else if (rewards[j].itemName.toUpperCase() === 'Ayatan Amber Star'.toUpperCase()) {
                     itemName = 'Amber Ayatan Star';
                 } else if (rewards[j].itemName.toUpperCase() === 'Ayatan Cyan Star'.toUpperCase()) {
                     itemName = 'Cyan Ayatan Star';
+                } else if (rewards[j].itemName.toUpperCase() === 'Kavasa Prime Kubrow Collar Blueprint'.toUpperCase()) {
+                    itemName = 'Kavasa Prime Collar Blueprint';
+                } else if (rewards[j].itemName.toUpperCase() === 'Kavasa Prime Buckle'.toUpperCase()) {
+                    itemName = 'Kavasa Prime Collar Buckle';
+                } else if (rewards[j].itemName.toUpperCase() === 'Kavasa Prime Band'.toUpperCase()) {
+                    itemName = 'Kavasa Prime Collar Band';
                 }
                 for (const item of this.untradeable) {
                     if (itemName.toUpperCase() === item.toUpperCase()) {
