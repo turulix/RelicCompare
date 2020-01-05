@@ -11,6 +11,10 @@ const appRoutes: Routes = [
     {
         path: '',
         component: MainpageComponent
+    },
+    {
+        path: "**",
+        redirectTo: "/"
     }
 ];
 
