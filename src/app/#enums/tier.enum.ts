@@ -3,5 +3,6 @@ export enum Tier {
     Meso = 'Meso',
     Neo = 'Neo',
     Axi = 'Axi',
-    Requiem = 'Requiem'
+    Requiem = 'Requiem',
+    None = 'None'
 }

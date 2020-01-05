@@ -1,8 +1,10 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, Input, OnInit} from '@angular/core';
 import {RelicService} from '../../../#service/relic.service';
 import {Relic} from '../../../#classes/relic';
 import {Rarity} from '../../../#enums/rarity.enum';
 import {WarframeMarketService} from '../../../#service/warframe-market.service';
+import {Tier} from '../../../#enums/tier.enum';
+import {BehaviorSubject} from 'rxjs';
 
 @Component({
     selector: 'app-search-bar',
@@ -14,6 +16,7 @@ export class SearchBarComponent implements OnInit {
     public focused = false;
     public rarity = Rarity;
 
+    @Input() selectedTier: BehaviorSubject<Tier>;
     public selectedIndex = -1;
     public selected = '';
 
@@ -25,7 +28,11 @@ export class SearchBarComponent implements OnInit {
     constructor(private relicService: RelicService, private market: WarframeMarketService) {
     }
 
-    ngOnInit() {
+    async ngOnInit() {
+        this.selectedTier.subscribe(async value => {
+            this.input = '';
+            await this.select('');
+        });
     }
 
     async select(name: string) {
@@ -95,7 +102,13 @@ export class SearchBarComponent implements OnInit {
             this.rewards = [];
             this.unFocus();
         }
-        const relics = (await this.relicService.getAllRelicNames()).sort().filter(value => value.toLowerCase().includes(searchValue.toLowerCase())).slice(0, 6);
+        const relics = (await this.relicService.getAllRelicNames()).sort().filter(value => {
+            if (this.selectedTier.getValue() === Tier.None) {
+                return value.toLowerCase().includes(searchValue.toLowerCase());
+            } else {
+                return value.toLowerCase().includes(this.selectedTier.getValue().toLowerCase() + ' ' + searchValue.toLowerCase());
+            }
+        }).slice(0, 6);
         if (relics.length === 0) {
             this.unFocus();
             return;
@@ -150,9 +163,15 @@ export class SearchBarComponent implements OnInit {
         if (!this.focused) {
             return;
         }
+        if (this.relics.length === 4) {
+            await this.select(this.relics[0]);
+            this.input = this.relics[0];
+            this.unFocus();
+        }
         if (this.selected === '') {
             return;
         }
+
         await this.select(this.selected);
         this.unFocus();
     }

@@ -72,6 +72,7 @@
             "double"
         ],
         "trailing-comma": false,
+        "comment-format": false,
         "no-conflicting-lifecycle": true,
         "no-host-metadata-property": true,
         "no-input-rename": true,

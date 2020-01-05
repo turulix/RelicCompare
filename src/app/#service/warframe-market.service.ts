@@ -12,6 +12,7 @@ export class WarframeMarketService {
     constructor(private http: HttpClient, private cacheService: CacheService) {
     }
 
+    // TODO: Cache entire response
     public async getMedianPrice48(name: string): Promise<string> {
         if (name === null) {
             return 'None';
@@ -33,6 +34,7 @@ export class WarframeMarketService {
         return value;
     }
 
+    // TODO: Rework, so it works
     public async getIcon(name: string): Promise<string> {
         if (!await this.cacheService.has(this.key) || this.items === null) {
             await this.initData();
@@ -42,6 +44,7 @@ export class WarframeMarketService {
             return (await this.cacheService.get(url)).value as string;
         }
         const res: any = await this.proxyRequest(url);
+        // TODO: Items_in_set not sorted
         const value = `https://warframe.market/static/assets/${res.payload.item.items_in_set[0].icon}`;
         await this.cacheService.add(value, 60 * 60, value);
         return value;
