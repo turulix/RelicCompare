@@ -43,14 +43,14 @@ export class SearchBarComponent implements OnInit {
         }
         const rewards = [];
         for (const reward of this.selectedRelic.rewards) {
-            this.market.getMedianPrice48(await this.market.getItemUrl(reward.itemName)).then(value => {
+            this.market.getMedianPrice48(await this.market.getItemUrl(reward.itemName)).then(async value => {
                 rewards.push({
                     itemName: reward.itemName,
                     rarity: reward.rarity,
                     tradeable: reward.tradeable,
                     chance: reward.chance,
                     price: value,
-                    urlName: this.market.getItemUrl(reward.itemName)
+                    urlName: await this.market.getItemUrl(reward.itemName)
                 });
                 rewards.sort((a, b) => {
                     if (a.rarity === Rarity.Rare && b.rarity !== Rarity.Rare) {
