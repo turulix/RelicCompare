@@ -1,0 +1,100 @@
+@import "./../../../../vars";
+
+#searchBar {
+    box-shadow: 2px 2px #071013;
+    z-index: 2000;
+
+    input {
+
+        padding: 8px;
+        font-size: 20px;
+        background-color: #121212;
+        border: none;
+
+        color: white;
+        width: 300px;
+
+        &:focus {
+            outline-color: #1bb194;
+            outline-width: thin;
+        }
+    }
+
+    ul {
+        font-family: 'Lato', sans-serif;
+        color: $fontcolor;
+        list-style: none;
+        font-size: 18px;
+        background-color: #171e21;
+        padding: 2px 5px 5px;
+
+        li {
+            padding: 5px 10px;
+
+            &:hover {
+                background-color: #121212;
+                color: #5ae8f1;
+            }
+        }
+    }
+}
+
+#items {
+    ul {
+        font-family: 'Lato', sans-serif;
+        list-style: none;
+        font-size: 18px;
+    }
+
+    .item {
+        display: flex;
+
+        a {
+            text-decoration: none;
+            &:visited {
+                color: inherit;
+            }
+
+            &:link {
+                color: inherit;
+            }
+
+            &:active {
+                color: inherit;
+            }
+
+            &:hover {
+                color: inherit;
+            }
+        }
+
+        .name {
+            justify-self: flex-start;
+            margin: auto auto auto 0;
+        }
+
+        .price {
+            justify-self: flex-end;
+        }
+    }
+}
+
+.hidden {
+    display: none;
+}
+
+.common {
+    color: coral;
+}
+
+.uncommon {
+    color: silver;
+}
+
+.rare {
+    color: gold;
+}
+
+.selected {
+    background-color: #121212;
+}

@@ -1,0 +1,40 @@
+<div id="mainContainer">
+    <div id="searchBar">
+        <input type="text" class="form-control" placeholder="Relic..."
+               (input)="onSearchChange($event.target.value) //noinspection UnresolvedVariable"
+               value="{{input}}" (focusout)="unFocus()" (focusin)="focus()" (keydown.arrowDown)="arrowDown()" (keydown.arrowUp)="arrowUp()" (keydown.enter)="enter()">
+        <section class="overlap">
+            <ul [class.hidden]="!focused">
+                <ng-container *ngFor="let relic of relics">
+                    <li (click)="click(relic)" [class.selected]="selected === relic">{{relic}}</li>
+                </ng-container>
+            </ul>
+        </section>
+    </div>
+    <div id="items" [class.hidden]="focused">
+        <ng-container *ngIf="selectedRelic !== null">
+            <ng-container *ngFor="let reward of rewards">
+                <ul>
+                    <li [class.common]="reward.rarity === rarity.Common"
+                        [class.uncommon]="reward.rarity === rarity.Uncommon"
+                        [class.rare]="reward.rarity === rarity.Rare">
+                        <div class="item">
+                            <ng-container *ngIf="reward.urlName !== null">
+                                <a href="https://warframe.market/items/{{reward.urlName}}" target="_blank" class="name">
+                                    <div>{{reward.itemName}}</div>
+                                </a>
+                            </ng-container>
+                            <ng-container *ngIf="reward.urlName === null">
+                                <a class="name">
+                                    <div>{{reward.itemName}}</div>
+                                </a>
+                            </ng-container>
+                            <div class="price">{{reward.price}}</div>
+                        </div>
+                    </li>
+                </ul>
+            </ng-container>
+        </ng-container>
+    </div>
+</div>
+
