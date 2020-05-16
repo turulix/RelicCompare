@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { MainpageComponent } from './mainpage.component';
+import { RelicCompareComponent } from './relic-compare.component';
 
 describe('MainpageComponent', () => {
-  let component: MainpageComponent;
-  let fixture: ComponentFixture<MainpageComponent>;
+  let component: RelicCompareComponent;
+  let fixture: ComponentFixture<RelicCompareComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ MainpageComponent ]
+      declarations: [ RelicCompareComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(MainpageComponent);
+    fixture = TestBed.createComponent(RelicCompareComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

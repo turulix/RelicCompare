@@ -46,6 +46,7 @@ export class RelicService {
         const keys: string[] = [];
         // tslint:disable-next-line:forin
         for (const key in this.relics) {
+            // noinspection JSUnfilteredForInLoop
             keys.push(key);
         }
         return keys;

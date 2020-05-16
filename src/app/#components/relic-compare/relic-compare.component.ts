@@ -5,10 +5,10 @@ import {BehaviorSubject} from 'rxjs';
 
 @Component({
     selector: 'app-mainpage',
-    templateUrl: './mainpage.component.html',
-    styleUrls: ['./mainpage.component.scss']
+    templateUrl: './relic-compare.component.html',
+    styleUrls: ['./relic-compare.component.scss']
 })
-export class MainpageComponent implements OnInit {
+export class RelicCompareComponent implements OnInit {
     Arr = Array;
     tier = Tier;
     public selected = new BehaviorSubject<Tier>(Tier.None);

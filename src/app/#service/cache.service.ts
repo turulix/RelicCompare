@@ -18,7 +18,6 @@ export class CacheEntry {
 })
 export class CacheService {
     // tslint:disable-next-line:variable-name
-    private _cache: Map<string, CacheEntry> = new Map<string, CacheEntry>();
     private db = null;
 
     constructor() {
@@ -27,28 +26,22 @@ export class CacheService {
         this.db.version(1).stores({
             cache: '&key'
         });
-
-        this.db.open('Cache').then(db => {
-            db.cache.each(async entry => {
-                this._cache.set(entry.key, new CacheEntry(entry.key, entry.expire, entry.value));
-            });
-        });
     }
 
     public async get(key: string): Promise<CacheEntry> {
-        if (!this._cache.has(key)) {
-            return null;
+        const db = await this.db.open();
+        let entry = await db.cache.get(key);
+        if (entry === undefined) {
+            return undefined;
         }
-        const entry = this._cache.get(key);
+        entry = new CacheEntry(entry.key, entry.expire, entry.value);
         if (entry.expiryDate.getTime() < new Date().getTime()) {
-            console.log('Refreshing: ' + key);
-            return null;
+            return undefined;
         }
         return entry;
     }
 
     public async set(entry: CacheEntry) {
-        this._cache.set(entry.key, entry);
         const db = await this.db.open();
         await db.cache.put({key: entry.key, expire: entry.expiryDate, value: entry.value});
     }
@@ -59,14 +52,7 @@ export class CacheService {
     }
 
     public async has(key: string): Promise<boolean> {
-        if (this._cache.has(key)) {
-            if (await this.get(key) === null) {
-                this._cache.delete(key);
-                return false;
-            }
-            return true;
-        }
-        return false;
+        return (await this.get(key)) !== undefined;
     }
 
 }

@@ -2,7 +2,8 @@
     <div id="searchBar">
         <input type="text" class="form-control" placeholder="Relic..."
                (input)="onSearchChange($event.target.value) //noinspection UnresolvedVariable"
-               value="{{input}}" (focusout)="unFocus()" (focusin)="focus()" (keydown.arrowDown)="arrowDown()" (keydown.arrowUp)="arrowUp()" (keydown.enter)="enter()">
+               value="{{input}}" (focusout)="unFocus()" (focusin)="focus()" (keydown.arrowDown)="arrowDown()"
+               (keydown.arrowUp)="arrowUp()" (keydown.enter)="enter()">
         <section class="overlap">
             <ul [class.hidden]="!focused">
                 <ng-container *ngFor="let relic of relics">
@@ -15,20 +16,27 @@
         <ng-container *ngIf="selectedRelic !== null">
             <ng-container *ngFor="let reward of rewards">
                 <ul>
+                    <!--suppress TypeScriptUnresolvedVariable -->
                     <li [class.common]="reward.rarity === rarity.Common"
                         [class.uncommon]="reward.rarity === rarity.Uncommon"
                         [class.rare]="reward.rarity === rarity.Rare">
                         <div class="item">
+                            <!--suppress TypeScriptUnresolvedVariable -->
                             <ng-container *ngIf="reward.urlName !== null">
+                                <!--suppress TypeScriptUnresolvedVariable -->
                                 <a href="https://warframe.market/items/{{reward.urlName}}" target="_blank" class="name">
+                                    <!--suppress TypeScriptUnresolvedVariable -->
                                     <div>{{reward.itemName}}</div>
                                 </a>
                             </ng-container>
+                            <!--suppress TypeScriptUnresolvedVariable -->
                             <ng-container *ngIf="reward.urlName === null">
                                 <a class="name">
+                                    <!--suppress TypeScriptUnresolvedVariable -->
                                     <div>{{reward.itemName}}</div>
                                 </a>
                             </ng-container>
+                            <!--suppress TypeScriptUnresolvedVariable -->
                             <div class="price">{{reward.price}}</div>
                         </div>
                     </li>
